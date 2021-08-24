@@ -16,7 +16,21 @@ typedef struct
     uint64_t r13;
     uint64_t r14;
     uint64_t r15;
-} FT_FiberContext;
+#if defined(WIN32) || defined(_WIN32)
+    uint64_t rdi;
+    uint64_t rsi;
+    uint8_t  xmm6[16];
+    uint8_t  xmm7[16];
+    uint8_t  xmm8[16];
+    uint8_t  xmm9[16];
+    uint8_t  xmm10[16];
+    uint8_t  xmm11[16];
+    uint8_t  xmm12[16];
+    uint8_t  xmm13[16];
+    uint8_t  xmm14[16];
+    uint8_t  xmm15[16];
+#endif
+} FT_CoroutineContext;
 #pragma pack(pop)
 
 #endif

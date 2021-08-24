@@ -26,13 +26,13 @@ struct FT_Coroutine
 {
     FT_CoroutineEntry   entry;
     void*               arg;
-    FT_FiberContext     ctx;
+    FT_CoroutineContext ctx;
 };
 
 typedef struct
 {
-    FT_Coroutine*   current;
     FT_Coroutine    thread;
+    FT_Coroutine*   current;
 } FT_CoroutineThreadContext;
 
 extern THREAD_LOCAL FT_CoroutineThreadContext FT_tCoCtx;
