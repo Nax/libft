@@ -20,7 +20,7 @@ endif()
 
 # Compiler-specific flags
 if (CMAKE_C_COMPILER_ID MATCHES "(Clang)|(GNU)")
-  add_compile_options("-fvisibility=hidden")
+  add_compile_options("$<$<COMPILE_LANGUAGE:C>:-fvisibility=hidden>")
 endif()
 
 add_library(libft_static STATIC ${SOURCES})

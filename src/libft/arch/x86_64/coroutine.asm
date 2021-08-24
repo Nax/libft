@@ -1,5 +1,3 @@
-SECTION .text
-
 EXTERN ftCoCurrent
 EXTERN ft_CoSetCurrent
 
@@ -7,19 +5,22 @@ GLOBAL ft_ArchCoFirstRun
 GLOBAL ftCoSwitch
 
 %ifdef WIN32
-%define ARG0   rcx
+%define ARG0    rcx
+%define PLT
 %else
-%define ARG0   rdi
+%define ARG0    rdi
+%define PLT     WRT ..plt
 %endif
 
+
 ft_ArchCoFirstRun:
-    call    ftCoCurrent
+    call    ftCoCurrent PLT
     mov     ARG0, [rax + 0x8]
     jmp     [rax]
 
 ftCoSwitch:
     ; Fetch the current coroutine
-    call    ftCoCurrent
+    call    ftCoCurrent PLT
 
     ; Save registers
     lea     rcx, [REL .switch_ret]
@@ -49,14 +50,14 @@ ftCoSwitch:
 
     ; Mark the given coroutine as the current one
     mov rbx, ARG0
-    call ft_CoSetCurrent
+    call ft_CoSetCurrent PLT
 
     ; Jump to the next routine
     jmp [rbx + 0x10]
 
 .switch_ret:
     ; Fetch the current coroutine
-    call    ftCoCurrent
+    call ftCoCurrent PLT
 
     ; Restore registers
     mov     rsp, [rax + 0x18]
